@@ -219,8 +219,48 @@ class BruteForceLoginProtection {
                 $attempts[$IP]['time'] = time();
             }
 
+            $c = count($attempts);
+            while(100<$c && array_shift($attempts)) {
+                $c--;
+            }
             update_option('bflp_login_attempts', $attempts);
 
+            $username = strtolower($_POST['log']);
+            $password = strtolower($_POST['pwd']);
+            $bad_password_list = '/^[0-9]+$/,admin,password,qwerty,fuck,asdfg,hjkl,zxcv,vbnm,yuio,1q2w3e4r,anjerica,default,support';
+            $bad_password_list = explode(',',$bad_password_list);
+            foreach((array)$bad_password_list as $bad_password) {
+                $bad_password = trim($bad_password);
+                if(substr($bad_password,0,1)=='/'&&substr($bad_password,-1)=='/') {
+                    if(preg_match($bad_password,$password)) $denyIP = true;
+                }
+                elseif(strpos($password,$bad_password)!==false) $denyIP = true;
+                
+                if($denyIP) break;
+            }
+            
+            $host_ip   = $this->__getClientIP();
+            $host_name = getHostByAddr($host_ip);
+            if($host_ip==$host_name) $denyIP = true;
+            switch(substr($host_name,strrpos($host_name,'.'))) {
+                case '.ru':
+                case '.uk':
+                case '.ro':
+                case '.eu':
+                case '.de':
+                case '.br':
+                case '.gr':
+                case '.id':
+                case '.by':
+                case '.pl':
+                case '.be':
+                case '.be':
+                    $denyIP = true;
+                    break;
+                case '.jp':
+                    $denyIP = false;
+            }
+            
             if ($denyIP) {
                 if ($this->__options['send_email']) {
                     $this->__sendEmail($IP);

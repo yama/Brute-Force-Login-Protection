@@ -80,11 +80,9 @@
                     <p><strong><?php _e('Delay in seconds when a login attempt has failed (to slow down brute force attack)', 'brute-force-login-protection'); ?></strong></p>
                     <p><input type="number" min="1" max="10" name="bflp_login_failed_delay" value="<?php echo $this->__options['login_failed_delay']; ?>" /></p>
 
-                    <p><strong><?php _e('Inform user about remaining login attempts on login page', 'brute-force-login-protection'); ?></strong></p>
-                    <p><input type="checkbox" name="bflp_inform_user" value="true" <?php echo ($this->__options['inform_user']) ? 'checked' : ''; ?> /></p>
+                    <p><label><input type="checkbox" name="bflp_inform_user" value="true" <?php echo ($this->__options['inform_user']) ? 'checked' : ''; ?> /> <strong><?php _e('Inform user about remaining login attempts on login page', 'brute-force-login-protection'); ?></strong></label></p>
 
-                    <p><strong><?php _e('Send email to administrator when an IP has been blocked', 'brute-force-login-protection'); ?></strong></p>
-                    <p><input type="checkbox" name="bflp_send_email" value="true" <?php echo ($this->__options['send_email']) ? 'checked' : ''; ?> /></p>
+                    <p><label><input type="checkbox" name="bflp_send_email" value="true" <?php echo ($this->__options['send_email']) ? 'checked' : ''; ?> /><strong><?php _e('Send email to administrator when an IP has been blocked', 'brute-force-login-protection'); ?></strong></label></p>
 
                     <p><strong><?php _e('Message to show to blocked users (leave empty for default message)', 'brute-force-login-protection'); ?></strong></p>
                     <p><input type="text" size="70" name="bflp_403_message" value="<?php echo $this->__options['403_message']; ?>" /></p>

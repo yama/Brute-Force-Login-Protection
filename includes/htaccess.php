@@ -199,7 +199,12 @@ class Htaccess {
      * @return boolean
      */
     private function __addLine($line) {
-        $insertion = array_merge($this->__header, $this->__getLines(array('deny from ', 'ErrorDocument 403 ')), array($line), $this->__footer);
+        $lines = $this->__getLines(array('deny from ', 'ErrorDocument 403 '));
+        $c = count($lines);
+        while(100<$c && array_shift($lines)) {
+            $c--;
+        }
+        $insertion = array_merge($this->__header, $lines, array($line), $this->__footer);
 
         return $this->__insert(array_unique($insertion));
     }
